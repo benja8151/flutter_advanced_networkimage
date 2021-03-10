@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 class ZoomableList extends StatefulWidget {
   ZoomableList({
-    Key key,
-    @required this.child,
+    Key? key,
+    this.child,
     this.childKey,
     this.maxScale: 1.4,
     this.enablePan: true,
@@ -14,25 +14,20 @@ class ZoomableList extends StatefulWidget {
     this.enableFling: true,
     this.flingFactor: 1.0,
     this.onTap,
-  })  : assert(maxScale != null),
-        assert(enablePan != null),
-        assert(enableZoom != null),
-        assert(zoomSteps != null),
-        assert(enableFling != null),
-        assert(flingFactor != null);
+  });
 
-  final Widget child;
+  final Widget? child;
   @deprecated
-  final GlobalKey childKey;
+  final GlobalKey? childKey;
   final double maxScale;
   final bool enableZoom;
   final bool enablePan;
-  final double maxWidth;
-  final double maxHeight;
+  final double? maxWidth;
+  final double? maxHeight;
   final int zoomSteps;
   final bool enableFling;
   final double flingFactor;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   _ZoomableListState createState() => _ZoomableListState();
@@ -52,11 +47,11 @@ class _ZoomableListState extends State<ZoomableList>
   Size _widgetSize = Size.zero;
   bool _getContainerSize = false;
 
-  AnimationController _controller;
-  AnimationController _flingController;
-  Animation<double> _zoomAnimation;
-  Animation<Offset> _panOffsetAnimation;
-  Animation<Offset> _flingAnimation;
+  late AnimationController _controller;
+  late AnimationController _flingController;
+  late Animation<double> _zoomAnimation;
+  late Animation<Offset> _panOffsetAnimation;
+  late Animation<Offset> _flingAnimation;
 
   @override
   void initState() {
@@ -107,7 +102,8 @@ class _ZoomableListState extends State<ZoomableList>
 
   void _onScaleUpdate(ScaleUpdateDetails details) {
     if (!_getContainerSize) {
-      final RenderBox box = _key.currentContext.findRenderObject();
+      final RenderBox box = _key.currentContext?.findRenderObject() as RenderBox;
+      
       if (box.size == _containerSize) {
         _getContainerSize = true;
       } else {
@@ -151,7 +147,7 @@ class _ZoomableListState extends State<ZoomableList>
 
   void _onScaleEnd(ScaleEndDetails details) {
     if (!_getContainerSize) {
-      final RenderBox box = _key.currentContext.findRenderObject();
+      final RenderBox box = _key.currentContext?.findRenderObject() as RenderBox;
       if (box.size == _containerSize) {
         _getContainerSize = true;
       } else {
@@ -163,7 +159,8 @@ class _ZoomableListState extends State<ZoomableList>
     final double magnitude = velocity.distance;
     if (magnitude > 800.0 * _zoom && widget.enableFling) {
       final Offset direction = velocity / magnitude;
-      final double distance = (Offset.zero & context.size).shortestSide;
+      final Size size = context.size ?? Size.zero;
+      final double distance = (Offset.zero & size).shortestSide;
       final Offset endOffset =
           _panOffset + direction * distance * widget.flingFactor * 0.5;
       _flingAnimation = Tween(

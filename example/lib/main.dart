@@ -1,3 +1,5 @@
+
+
 import 'dart:ui' show ImageFilter;
 import 'dart:typed_data';
 
@@ -56,7 +58,7 @@ class Example extends State<MyApp> {
 }
 
 class LoadImage extends StatelessWidget {
-  const LoadImage({@required this.url, @required this.svgUrl});
+  const LoadImage({required this.url, required this.svgUrl});
 
   final String url;
   final String svgUrl;
@@ -91,7 +93,7 @@ class LoadImage extends StatelessWidget {
           loadingWidgetBuilder: (
             BuildContext context,
             double progress,
-            Uint8List imageData,
+            Uint8List? imageData,
           ) {
             // print(imageData.lengthInBytes);
             return Container(
@@ -118,7 +120,7 @@ class LoadImage extends StatelessWidget {
 }
 
 class ZoomableImage extends StatelessWidget {
-  const ZoomableImage({@required this.url});
+  const ZoomableImage({required this.url});
 
   final String url;
 
@@ -136,7 +138,7 @@ class ZoomableImage extends StatelessWidget {
 }
 
 class ZoomableImages extends StatelessWidget {
-  const ZoomableImages({@required this.url});
+  const ZoomableImages({required this.url});
 
   final String url;
 
