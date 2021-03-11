@@ -27,21 +27,7 @@ class ZoomableWidget extends StatefulWidget {
     this.onZoomChanged,
     this.resetDuration: const Duration(milliseconds: 250),
     this.resetCurve: Curves.easeInOut,
-  })  : assert(minScale != null),
-        assert(maxScale != null),
-        assert(initialScale != null),
-        assert(initialOffset != null),
-        assert(initialRotation != null),
-        assert(enableZoom != null),
-        assert(panLimit != null),
-        assert(singleFingerPan != null),
-        assert(multiFingersPan != null),
-        assert(enableRotate != null),
-        assert(zoomSteps != null),
-        assert(autoCenter != null),
-        assert(bounceBackBoundary != null),
-        assert(enableFling != null),
-        assert(flingFactor != null);
+  });
 
   /// The minimum size for scaling.
   final double minScale;

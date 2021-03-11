@@ -40,14 +40,7 @@ class AdvancedNetworkImage extends ImageProvider<AdvancedNetworkImage> {
     this.printError = false,
     this.skipRetryStatusCode,
     this.id,
-  })  : assert(url != null),
-        assert(scale != null),
-        assert(useDiskCache != null),
-        assert(retryLimit != null),
-        assert(retryDuration != null),
-        assert(retryDurationFactor != null),
-        assert(timeoutDuration != null),
-        assert(printError != null);
+  });
 
   /// The URL from which the image will be fetched.
   final String url;
@@ -130,8 +123,6 @@ class AdvancedNetworkImage extends ImageProvider<AdvancedNetworkImage> {
     bool memory = true,
     bool disk = false,
   }) async {
-    assert(memory != null);
-    assert(disk != null);
 
     if (memory) {
       cache ??= imageCache;
@@ -170,8 +161,10 @@ class AdvancedNetworkImage extends ImageProvider<AdvancedNetworkImage> {
       try {
         Uint8List? _diskCache = await loadFromDiskCache();
         if (_diskCache != null) {
-          if (key.postProcessing != null)
-            _diskCache = (await key.postProcessing!(_diskCache)) ?? _diskCache;
+          if (key.postProcessing != null){
+            final Uint8List? _postProcessingCache = await key.postProcessing!(_diskCache);
+            if (_postProcessingCache!= null) _diskCache = _postProcessingCache;
+          }
           if (key.loadedCallback != null) key.loadedCallback!();
           return decode(
             _diskCache,
@@ -195,8 +188,10 @@ class AdvancedNetworkImage extends ImageProvider<AdvancedNetworkImage> {
         printError: key.printError,
       );
       if (imageData != null) {
-        if (key.postProcessing != null)
-          imageData = (await key.postProcessing!(imageData)) ?? imageData;
+        if (key.postProcessing != null){
+          final Uint8List? _postProcessingImageData = await key.postProcessing!(imageData);
+          if (_postProcessingImageData!= null) imageData = _postProcessingImageData;  
+        }
         if (key.loadedCallback != null) key.loadedCallback!();
         return decode(
           imageData,
@@ -263,8 +258,10 @@ class AdvancedNetworkImage extends ImageProvider<AdvancedNetworkImage> {
         printError: key.printError,
       );
       if (imageData != null) {
-        if (key.preProcessing != null)
-          imageData = (await key.preProcessing!(imageData)) ?? imageData;
+        if (key.preProcessing != null){
+          final Uint8List? _preProcessingImageData = await key.preProcessing!(imageData);
+          if (_preProcessingImageData!= null) imageData = _preProcessingImageData;  
+        }
         await (File(join(_cacheImagesDirectory.path, uId)))
             .writeAsBytes(imageData);
         return imageData;
@@ -290,8 +287,10 @@ class AdvancedNetworkImage extends ImageProvider<AdvancedNetworkImage> {
         printError: key.printError,
       );
       if (data != null) {
-        if (key.preProcessing != null)
-          data = (await key.preProcessing!(data)) ?? data;
+        if (key.preProcessing != null){
+          final Uint8List? _preProcessingData = await key.preProcessing!(data);
+          if (_preProcessingData!= null) data = _preProcessingData;  
+        }
         await diskCache.save(uId, data, key.cacheRule!);
         return data;
       }

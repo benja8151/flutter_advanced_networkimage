@@ -163,8 +163,7 @@ class AdvancedNetworkSvg extends PictureProvider<AdvancedNetworkSvg> {
   Future<PictureInfo> decode(
       Uint8List imageData, ColorFilter? colorFilter, String keyString,
       {PictureErrorListener? onError}) {
-    if (onError != null)
-      return decoder(imageData, colorFilter, keyString)..catchError(onError);
+    
     return decoder(imageData, colorFilter, keyString);
   }
 

@@ -50,24 +50,7 @@ class TransitionToImage extends StatefulWidget {
     this.loadFailedCallback,
     this.forceRebuildWidget: false,
     this.printError = false,
-  })  : assert(image != null),
-        assert(fit != null),
-        assert(alignment != null),
-        assert(repeat != null),
-        assert(matchTextDirection != null),
-        assert(invertColors != null),
-        assert(placeholder != null),
-        assert(duration != null),
-        assert(curve != null),
-        assert(transitionType != null),
-        assert(loadingWidget != null),
-        assert(enableRefresh != null),
-        assert(longPressForceRefresh != null),
-        assert(disableMemoryCache != null),
-        assert(disableMemoryCacheIfFailed != null),
-        assert(forceRebuildWidget != null),
-        assert(printError != null),
-        super(key: key);
+  }) : super(key: key);
 
   /// The target image that is displayed.
   final ImageProvider image;
